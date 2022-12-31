@@ -4,7 +4,7 @@ import io.github.mwaibanda.authentication.domain.controller.AuthenticationContro
 import io.github.mwaibanda.authentication.domain.model.UserResponse
 import io.github.mwaibanda.authentication.utils.AuthResult
 
-class AuthenticationController:
+internal class AuthenticationController:
     AuthenticationController {
     override fun signInWithEmail(email: String, password: String, onCompletion: (AuthResult<UserResponse>) -> Unit) {
         TODO("Not yet implemented")
