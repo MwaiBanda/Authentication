@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library") version "7.2.0"
     kotlin("multiplatform") version "1.6.20"
+    kotlin("plugin.serialization") version "1.6.20"
     id("plugin.publication")
 }
 
@@ -42,6 +43,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api("org.kodein.di:kodein-di:7.14.0")
                 implementation("dev.gitlive:firebase-auth:1.6.2")
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
