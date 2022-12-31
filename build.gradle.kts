@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library") version "7.2.0"
     kotlin("multiplatform") version "1.6.20"
+    kotlin("plugin.serialization") version "1.6.20"
     id("plugin.publication")
 }
 
