@@ -1,5 +1,11 @@
 package io.github.mwaibanda.authentication.domain.usecase
 
-class DeleteUserUseCase {
+import io.github.mwaibanda.authentication.domain.service.AuthenticationService
 
+class DeleteUserUseCase(
+    private val authenticationService: AuthenticationService
+) {
+    suspend operator fun invoke() {
+        authenticationService.deleteUser()
+    }
 }
