@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.mwaibanda"
-version = "1.0.0-alpha01"
+version = "1.0.0-alpha02"
 
 repositories {
     google()
@@ -24,6 +24,7 @@ kotlin {
     }
 
     ios()
+    iosSimulatorArm64()
 
     js {
         useCommonJs()
@@ -66,5 +67,8 @@ kotlin {
         }
         val iosMain by getting
         val iosTest by getting
+        val iosSimulatorArm64Main by getting
+        val iosSimulatorArm64Test by getting
+
     }
 }
