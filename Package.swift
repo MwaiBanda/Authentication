@@ -15,8 +15,7 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "Authentication",
-            url: "https://github.com/MwaiBanda/Authentication/package/Authentication-1.0.0.zip",
-            checksum: "f764fbe7dbef393a9f88c4da20a8039ead017540cc13a712757598d855cb0692"
+            path: "./package/Authentication.xcframework"
         ),
     ]
 )
