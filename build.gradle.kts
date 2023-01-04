@@ -11,11 +11,13 @@ plugins {
 
 multiplatformSwiftPackage {
     packageName("Authentication")
+    outputDirectory(File(projectDir, "package"))
     swiftToolsVersion("5.3")
     targetPlatforms {
         iOS { v("13") }
     }
 }
+
 group = "io.github.mwaibanda"
 version = "1.0.0"
 
