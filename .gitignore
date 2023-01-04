@@ -11,3 +11,4 @@ local.properties
 xcuserdata/
 Pods/
 dirsecring.gpg
+.npmrc

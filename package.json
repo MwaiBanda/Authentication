@@ -1,0 +1,32 @@
+{
+  "name": "@mwaibanda/authetication",
+  "version": "1.0.0",
+  "description": "Wrapper around firebase for usage in Kotlin Multiplatform projects",
+  "main": "authentication.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MwaiBanda/Authentication.git"
+  },
+  "keywords": [
+    "kotlin",
+    "multiplatform",
+    "kotlin-js",
+    "firebase",
+    "authentication",
+    "mwai banda"
+  ],
+  "author": "Mwai Banda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MwaiBanda/Authentication/issues"
+  },
+  "homepage": "https://github.com/MwaiBanda/Authentication",
+  "dependencies": {
+    "firebase": "9.7.0",
+    "kotlin": "1.6.21",
+    "kotlinx-coroutines-core": "1.6.0"
+  }
+}
