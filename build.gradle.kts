@@ -41,7 +41,7 @@ kotlin {
     ios()
     iosSimulatorArm64()
 
-    js {
+    js(IR) {
         useCommonJs()
         browser {
             testTask {
@@ -52,6 +52,7 @@ kotlin {
             }
         }
         nodejs()
+        binaries.library()
     }
     cocoapods {
         name = "Authentication"
@@ -100,4 +101,73 @@ kotlin {
         val iosSimulatorArm64Test by getting
 
     }
+}
+
+tasks {
+    val updateVersion by registering(Exec::class) {
+        commandLine("npm", "--allow-same-version", "--prefix", projectDir, "version", "${project.property("version")}")
+    }
+
+    val updateDependencyVersion by registering(Copy::class) {
+        mustRunAfter("updateVersion")
+        val from = file("package.json")
+        from.writeText(
+            from.readText()
+                .replace("version\": \"([^\"]+)".toRegex(), "version\": \"${project.property("version")}")
+                .replace("authentication-common\": \"([^\"]+)".toRegex(), "authentication-common\": \"${project.property("version")}")
+                .replace("authentication\": \"([^\"]+)".toRegex(), "authentication\": \"${project.property("version")}")
+        )
+    }
+
+    val copyReadMe by registering(Copy::class) {
+        from(rootProject.file("README.md"))
+        into(file("$buildDir/node_module"))
+    }
+
+    val copyPackageJson by registering(Copy::class) {
+        from(file("package.json"))
+        into(file("$buildDir/node_module"))
+    }
+
+    val unzipJar by registering(Copy::class) {
+        val zipFile = File("$buildDir/libs", "${project.name}-js-${project.version}-sources.jar")
+        from(this.project.zipTree(zipFile))
+        into("$buildDir/classes/kotlin/js/main/")
+    }
+
+    val copyJS by registering {
+        mustRunAfter("unzipJar", "copyPackageJson")
+        doLast {
+            val from = File("$buildDir/classes/kotlin/js/main/${project.name}.js")
+            val into = File("$buildDir/node_module/${project.name}.js")
+            into.createNewFile()
+            into.writeText(
+                from.readText()
+                    .replace("require('firebase-kotlin-sdk-", "require('@gitlive/")
+//                        .replace("require('kotlinx-serialization-kotlinx-serialization-runtime')", "require('@gitlive/kotlinx-serialization-runtime')")
+            )
+        }
+    }
+
+    val copySourceMap by registering(Copy::class) {
+        from(file("$buildDir/classes/kotlin/js/main/${project.name}.js.map"))
+        into(file("$buildDir/node_module"))
+    }
+
+    val prepareForNpmPublish by registering {
+        dependsOn(
+            unzipJar,
+            copyPackageJson,
+            copySourceMap,
+            copyReadMe,
+            copyJS
+        )
+    }
+
+    val publishToNpm by creating(Exec::class) {
+        workingDir("$buildDir/node_module")
+        isIgnoreExitValue = true
+        commandLine("npm", "publish")
+    }
+
 }
