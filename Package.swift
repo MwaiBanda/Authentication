@@ -16,7 +16,7 @@ let package = Package(
         .binaryTarget(
             name: "Authentication",
             path: "./package/Authentication.xcframework",
-            url: "https://github.com/MwaiBanda/Authentication/package/Authentication-1.0.0.zip"
+            url: "https://github.com/MwaiBanda/Authentication/releases/download/1.0.0/Authentication-1.0.0.zip"
         ),
     ]
 )
