@@ -12,7 +12,7 @@ kmmbridge {
     githubReleaseArtifacts()
     githubReleaseVersions()
     spm()
-    cocoapods("git@github.com:MwaiBanda/Authentication/PublicPodSpecs.git")
+//    cocoapods("git@github.com:MwaiBanda/Authentication/blob/development/authentication.podspec")
     versionPrefix.set("1.0.0")
 }
 
