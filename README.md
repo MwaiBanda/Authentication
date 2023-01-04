@@ -59,6 +59,10 @@ File > Swift Packages > Add Package Dependency <br>
 Add https://github.com/MwaiBanda/Authentication.git <br>
 branch origin
 
+## JS
+### npm
+npm i https://github.com/MwaiBanda/authentication   
+
 ## Maintainers
 
 - Mwai Banda - [mwai.developer@gmail.com](mailto:mwai.developer@gmail.com)
