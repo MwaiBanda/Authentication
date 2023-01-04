@@ -13,10 +13,6 @@ let package = Package(
         ),
     ],
     targets: [
-     .binaryTarget(
-        name: "Authentication",
-        path: "./package/Authentication.xcframework"
-     ),
         .binaryTarget(
             name: "Authentication",
             url: "https://github.com/MwaiBanda/Authentication/package/Authentication-1.0.0.zip",
