@@ -1,10 +1,60 @@
 # Authentication
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/joffrey-bion/krossbow/blob/main/LICENSE)
 ![badge][badge-android]
 ![badge][badge-ios]
 ![badge][badge-js]
 
+
 Multiplatform Firebase Auth Wrapper For Android, iOS & Js. This library can be used either as a KMM dependency or installed as a standalone library for Android via Maven, iOS with the `Swift package manager` and Js with `npm`
+
+# Usage
+```kotlin
+class AuthControllerImpl(
+    private val controller: AuthenticationController = Authentication.controller
+): AuthController {
+    override fun signInWithEmail(
+        email: String,
+        password: String,
+        onSuccess: (UserResponse?) -> Unit,
+        onFailure: (String?) -> Unit
+    ) {
+        controller.signInWithEmail(email, password) {
+            when(it) {
+                is AuthResult.Success -> {
+                    onSuccess(it.data)
+                }
+                is AuthResult.Failure -> {
+                    onFailure(it.message)
+                }
+            }
+        }
+    }
+...
+```
+
+```swift
+class AuthControllerImpl {
+    var controller: AuthenticationController
+    init(controller: AuthenticationController = Authentication.shared.controller) {
+        self.controller = controller
+    }
+    func signinWithEmail(
+        email: String,
+        password: String,
+        onSuccess: @escaping (UserResponse) -> Void
+    ) {
+        controller.signInWithEmail(email: email, password: password) { authResult in
+            if let user = authResult.data {
+                onSuccess(user)
+            } else if let error = authResult.message {
+                // Handle error
+            }
+        }
+    }
+...
+```
+
 
 # Installation
 
@@ -73,7 +123,7 @@ Feel free to dive in! [Open an issue](https://github.com/MwaiBanda/Authenticatio
 
 ## License
 
-[MIT](LICENSE) © Mwai Banda
+[MIT license](LICENSE) © Mwai Banda
 
 
 [badge-android]: http://img.shields.io/badge/-android-6EDB8D.svg?style=flat
