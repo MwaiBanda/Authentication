@@ -1,0 +1,23 @@
+{
+  "object" : {
+    "artifacts" : [
+      {
+        "packageRef" : {
+          "identity" : "authentication",
+          "kind" : "root",
+          "location" : "/Users/mwband/Repository/Libraries/Kotlin/authentication",
+          "name" : "authentication"
+        },
+        "path" : "/Users/mwband/Repository/Libraries/Kotlin/authentication/package/Authentication.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "Authentication"
+      }
+    ],
+    "dependencies" : [
+
+    ]
+  },
+  "version" : 5
+}
