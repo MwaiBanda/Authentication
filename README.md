@@ -9,6 +9,9 @@
 Multiplatform Firebase Auth Wrapper For Android, iOS & Js. This library can be used either as a KMM dependency or installed as a standalone library for Android via Maven, iOS with the `Swift package manager` and Js with `npm`
 
 # Usage
+The library exposes a kotlin object called `Authentication` that provides instances of the `AuthentionController`, a class that makes thread safe asynchronous calls to the `AuthenticationService`. A class that makes calls to the Kotlin Firebase SDK [@gitlive/firebase-kotlin-sdk](https://github.com/GitLiveApp/firebase-kotlin-sdk)
+## Kotlin
+Use the Authetication object to access the shared AuthenticationController.
 ```kotlin
 class AuthControllerImpl(
     private val controller: AuthenticationController = Authentication.controller
@@ -33,6 +36,8 @@ class AuthControllerImpl(
 ...
 ```
 
+## Swift
+Use the Authetication class to access the shared instance of the AuthenticationController.
 ```swift
 class AuthControllerImpl {
     var controller: AuthenticationController
@@ -53,6 +58,30 @@ class AuthControllerImpl {
         }
     }
 ...
+```
+
+### AuthenticationController
+Use the to access the shared instance of the AuthenticationController
+```kotlin
+interface AuthenticationController {
+    fun signInWithEmail(email: String, password: String, onCompletion: (AuthResult<UserResponse>) -> Unit)
+    fun signUpWithEmail(email: String, password: String, onCompletion: (AuthResult<UserResponse>) -> Unit)
+    fun signInAsGuest(onCompletion: (AuthResult<UserResponse>) -> Unit)
+    fun checkAuthAndSignAsGuest(onCompletion: (AuthResult<UserResponse>) -> Unit)
+    fun getCurrentUser(onCompletion: (AuthResult<UserResponse>) -> Unit)
+    fun isUserSignedIn(onCompletion: (Boolean) -> Unit)
+    fun deleteUser()
+    fun signOut()
+}
+```
+### UserResponse
+Some calls to the AuthenticationController return this response Object
+```kotlin
+data class UserResponse(
+    val uid: String,
+    val email: String?,
+    val isAnonymous: Boolean
+)
 ```
 
 
