@@ -22,13 +22,13 @@ class AuthControllerImpl(
         onSuccess: (UserResponse?) -> Unit,
         onFailure: (String?) -> Unit
     ) {
-        controller.signInWithEmail(email, password) {
-            when(it) {
+        controller.signInWithEmail(email, password) { authResult ->
+            when(authResult) {
                 is AuthResult.Success -> {
-                    onSuccess(it.data)
+                    onSuccess(authResult.data)
                 }
                 is AuthResult.Failure -> {
-                    onFailure(it.message)
+                    onFailure(authResult.message)
                 }
             }
         }
@@ -100,7 +100,7 @@ Add the repository on your Project-level gradle
 allprojects {
     repositories {
         ...
-        maven(url = "https://maven.pkg.github.com/MwaiBanda/Multiplatform-Auth")
+        maven(url = "https://maven.pkg.github.com/MwaiBanda/Authentication")
     }
 }
 ```
