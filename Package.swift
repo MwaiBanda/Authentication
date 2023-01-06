@@ -19,15 +19,15 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
-        .binaryTarget(name: "Authentication", path: "./package/Authentication/Artifacts/Authentication.xcframework"),
+        .binaryTarget(name: "Authentication", path: "./package/authentication/Artifacts/Authentication.xcframework"),
         .target(
             name: "Authentication-Swift",
             dependencies: ["Authentication"],
-        path: "./package/Authentication/Sources/Authentication-Swift"),
+        path: "./package/authentication/Sources/Authentication-Swift"),
         .testTarget(
             name: "AuthenticationTests",
             dependencies: ["Authentication-Swift"],
-            path: "./package/Authentication/Tests/AuthenticationTests"
+            path: "./package/authentication/Tests/AuthenticationTests"
         ),
     ]
 )
