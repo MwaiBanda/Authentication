@@ -4,13 +4,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "Authentication",
+    name: "AuthenticationSwift",
     platforms: [.iOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "Authentication-Swift",
-            targets: ["Authentication-Swift", "Authentication"]),
+            name: "AuthenticationSwift",
+            targets: ["AuthenticationSwift", "Authentication"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -19,15 +19,15 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
-        .binaryTarget(name: "Authentication", path: "./package/authentication/Artifacts/Authentication.xcframework"),
+        .binaryTarget(name: "Authentication", path: "./Artifacts/Authentication.xcframework"),
         .target(
-            name: "Authentication-Swift",
+            name: "AuthenticationSwift",
             dependencies: ["Authentication"],
-        path: "./package/authentication/Sources/Authentication-Swift"),
+        path: "./Sources/AuthenticationSwift"),
         .testTarget(
             name: "AuthenticationTests",
-            dependencies: ["Authentication-Swift"],
-            path: "./package/authentication/Tests/AuthenticationTests"
+            dependencies: ["AuthenticationSwift"],
+            path: "./Tests/AuthenticationTests"
         ),
     ]
 )
