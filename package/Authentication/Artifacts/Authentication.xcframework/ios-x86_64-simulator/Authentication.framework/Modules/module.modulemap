@@ -1,0 +1,6 @@
+framework module Authentication {
+    umbrella header "Authentication.h"
+
+    export *
+    module * { export * }
+}
