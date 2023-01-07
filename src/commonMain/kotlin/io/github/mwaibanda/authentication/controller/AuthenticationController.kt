@@ -4,13 +4,18 @@ import io.github.mwaibanda.authentication.domain.controller.AuthenticationContro
 import io.github.mwaibanda.authentication.domain.model.UserResponse
 import io.github.mwaibanda.authentication.domain.usecase.*
 import io.github.mwaibanda.authentication.utils.AuthResult
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
 
-internal class AuthenticationController(override val di: DI) : AuthenticationController, DIAware {
+internal class AuthenticationController(
+    override val di: DI,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
+) : AuthenticationController, DIAware {
     private val signInWithEmailUseCase: SignInWithEmailUseCase by instance()
     private val signUpWithEmailUseCase: SignUpWithEmailUseCase by instance()
     private val signInAsGuestUseCase: SignInAsGuestUseCase by instance()
@@ -25,7 +30,7 @@ internal class AuthenticationController(override val di: DI) : AuthenticationCon
         password: String,
         onCompletion: (AuthResult<UserResponse>) -> Unit
     ) {
-        scope.launch {
+        scope.launch(dispatcher) {
             signInWithEmailUseCase(email = email, password = password) {
                 onCompletion(it)
             }
@@ -37,7 +42,7 @@ internal class AuthenticationController(override val di: DI) : AuthenticationCon
         password: String,
         onCompletion: (AuthResult<UserResponse>) -> Unit
     ) {
-        scope.launch {
+        scope.launch(dispatcher) {
             signUpWithEmailUseCase(email = email, password = password) {
                 onCompletion(it)
             }
@@ -45,7 +50,7 @@ internal class AuthenticationController(override val di: DI) : AuthenticationCon
     }
 
     override fun signInAsGuest(onCompletion: (AuthResult<UserResponse>) -> Unit) {
-        scope.launch {
+        scope.launch(dispatcher) {
             signInAsGuestUseCase {
                 onCompletion(it)
             }
@@ -53,13 +58,13 @@ internal class AuthenticationController(override val di: DI) : AuthenticationCon
     }
 
     override fun isUserSignedIn(onCompletion: (Boolean) -> Unit)  {
-        scope.launch {
+        scope.launch(dispatcher) {
             onCompletion(isUserSignedInUseCase())
         }
     }
 
     override fun getCurrentUser(onCompletion: (AuthResult<UserResponse>) -> Unit) {
-        scope.launch {
+        scope.launch(dispatcher) {
             getCurrentUserUseCase {
                 onCompletion(it)
             }
@@ -81,13 +86,13 @@ internal class AuthenticationController(override val di: DI) : AuthenticationCon
     }
 
     override fun deleteUser() {
-        scope.launch {
+        scope.launch(dispatcher) {
             deleteUserUseCase()
         }
     }
 
     override fun signOut(){
-        scope.launch {
+        scope.launch(dispatcher) {
             signOutUseCase()
         }
     }
