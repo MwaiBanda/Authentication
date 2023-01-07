@@ -11,6 +11,20 @@ Multiplatform Firebase Auth Wrapper For Android, iOS & Js. This library can be u
 # Usage
 The library exposes a kotlin object called `Authentication` that provides instances of the `AuthentionController`, a class that makes thread safe asynchronous calls to the `AuthenticationService`. A class that makes calls to the Kotlin Firebase SDK [@gitlive/firebase-kotlin-sdk](https://github.com/GitLiveApp/firebase-kotlin-sdk)
 ## Kotlin
+Add the Kotlin Firebase SDK [@gitlive/firebase-kotlin-sdk](https://github.com/GitLiveApp/firebase-kotlin-sdk)
+```kotlin
+    implementation("dev.gitlive:firebase-auth:1.6.2")
+```
+### Firebase Initilization
+```kotlin
+...
+   override fun onCreate() {
+        super.onCreate()
+        FirebaseApp.initializeApp(this) // <- Intialize FirebaseApp
+    }
+...
+```
+
 Use the Authetication object to access the shared AuthenticationController.
 ```kotlin
 class AuthControllerImpl(
@@ -116,9 +130,15 @@ Add the repository on your Project-level gradle
 allprojects {
     repositories {
         ...
-        maven(url = "https://maven.pkg.github.com/MwaiBanda/Authentication")
-    }
-}
+        maven {
+          name = "GitHubPackages"
+          url = uri("https://maven.pkg.github.com/MwaiBanda/Authentication")
+          credentials {
+              username = \* GITHUB ACCESS EMAIL *\
+              password = \* GITHUB ACCESS TOKEN *\
+          }
+       }
+...    
 ```
 
 ### KMM
