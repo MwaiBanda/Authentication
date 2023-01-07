@@ -37,8 +37,24 @@ class AuthControllerImpl(
 ```
 
 ## Swift
+The standalone swift pakage comes bundled with Firebase Auth 
+```swift
+import AuthenticationSwift // <-- Import librabry
+
+@main
+struct iOSApp: App {
+    init() {
+        Authentication.configure() // <-- Call `configure` to init FirebaseApp
+    }
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+...
+```
 Use the Authetication class to access the shared instance of the AuthenticationController.
 ```swift
+import Authentication // <-- Import the core librabry
+
 class AuthControllerImpl {
     var controller: AuthenticationController
     init(controller: AuthenticationController = Authentication.shared.controller) {
