@@ -33,6 +33,7 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }
 
+
 kotlin {
     android {
         publishAllLibraryVariants()
@@ -74,13 +75,20 @@ kotlin {
                 api("org.kodein.di:kodein-di:7.10.0")
                 implementation("dev.gitlive:firebase-auth:1.6.2")
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+                implementation(kotlin("test-junit"))
             }
         }
         val commonTest by getting {
             dependencies {
+                api("org.kodein.di:kodein-di:7.10.0")
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation(kotlin("test-junit"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
             }
         }
         val androidMain by getting
@@ -104,6 +112,7 @@ kotlin {
 }
 
 tasks {
+
     val updateVersion by registering(Exec::class) {
         commandLine("npm", "--allow-same-version", "--prefix", projectDir, "version", "${project.property("version")}")
     }
