@@ -51,7 +51,7 @@ class AuthControllerImpl(
 ```
 
 ## Swift
-The standalone swift pakage comes bundled with Firebase Auth 
+The standalone swift package comes bundled with Firebase Auth 
 ```swift
 import AuthenticationSwift // <-- Import librabry
 
