@@ -13,16 +13,16 @@ import org.kodein.di.DIAware
 import org.kodein.di.instance
 
 internal class AuthenticationController(
-    override val di: DI,
+    private val signInWithEmailUseCase: SignInWithEmailUseCase,
+    private val signUpWithEmailUseCase: SignUpWithEmailUseCase,
+    private val signInAsGuestUseCase: SignInAsGuestUseCase,
+    private val isUserSignedInUseCase: IsUserSignedInUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val deleteUserUseCase: DeleteUserUseCase,
+    private val signOutUseCase: SignOutUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
-) : AuthenticationController, DIAware {
-    private val signInWithEmailUseCase: SignInWithEmailUseCase by instance()
-    private val signUpWithEmailUseCase: SignUpWithEmailUseCase by instance()
-    private val signInAsGuestUseCase: SignInAsGuestUseCase by instance()
-    private val isUserSignedInUseCase: IsUserSignedInUseCase by instance()
-    private val getCurrentUserUseCase: GetCurrentUserUseCase by instance()
-    private val deleteUserUseCase: DeleteUserUseCase by instance()
-    private val signOutUseCase: SignOutUseCase by instance()
+) : AuthenticationController {
+
     private val scope = MainScope()
 
     override fun signInWithEmail(
