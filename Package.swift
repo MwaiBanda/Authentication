@@ -10,7 +10,7 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "AuthenticationSwift",
-            targets: ["AuthenticationSwift", "Authentication"]),
+            targets: ["Authentication", \* "AuthenticationSwift" *\]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -20,15 +20,19 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
-        .binaryTarget(name: "Authentication", path: "./artifacts/Authentication.xcframework"),
-        .target(
-            name: "AuthenticationSwift",
-            dependencies: [
-                "Authentication",
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-            ],
-            path: "./package/src"
+
+        .binaryTarget(
+        name: "Authentication",
+        path: "./artifacts/Authentication-1.0.5.zip",
         ),
+//         .target(
+//             name: "AuthenticationSwift",
+//             dependencies: [
+//                 "Authentication",
+//                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+//             ],
+//             path: "./package/src"
+//         ),
         .testTarget(
             name: "AuthenticationTests",
             dependencies: ["AuthenticationSwift"],

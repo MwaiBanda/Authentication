@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.library") version "7.2.0"
+    id("com.android.library") version "7.2.2"
     kotlin("multiplatform") version "1.8.21"
     kotlin("native.cocoapods")  version "1.8.21"
     kotlin("plugin.serialization") version "1.8.21"
@@ -20,7 +20,7 @@ multiplatformSwiftPackage {
 }
 
 group = "io.github.mwaibanda"
-version = "1.0.0"
+version = "1.0.5"
 
 repositories {
     google()
@@ -66,8 +66,8 @@ kotlin {
             baseName = "Authentication"
             isStatic = true
         }
-        pod("FirebaseAuth") {
-            version = "10.7.0"
+        pod("FirebaseCore") {
+            version = "10.10.0"
         }
     }
 
@@ -77,7 +77,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api("org.kodein.di:kodein-di:7.20.1")
-                implementation("dev.gitlive:firebase-auth:1.6.2")
+                api("dev.gitlive:firebase-auth:1.6.2")
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation(kotlin("test-common"))
@@ -95,7 +95,11 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation("dev.gitlive:firebase-auth:1.6.2")
+            }
+        }
         val androidInstrumentedTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
@@ -107,33 +111,13 @@ kotlin {
                 implementation(kotlin("test-js"))
             }
         }
-        val iosX64Main by getting {
-            dependencies {
-                implementation("dev.gitlive:firebase-auth-iosx64:$firebase")
-            }
-        }
-        val iosArm64Main by getting {
-            dependencies {
-                implementation("dev.gitlive:firebase-auth-iosarm64:$firebase")
-            }
-        }
-        val iosSimulatorArm64Main by getting {
-            dependencies {
-                implementation("dev.gitlive:firebase-auth-iossimulatorarm64:$firebase")
-            }
-        }
 
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
 
-        val iosX64Test by getting {
-            dependencies {
-                implementation("dev.gitlive:firebase-auth-iosx64:$firebase")
-            }
-        }
-        val iosArm64Test by getting {
-            dependencies {
-                implementation("dev.gitlive:firebase-auth-iosarm64:$firebase")
-            }
-        }
+        val iosX64Test by getting
+        val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
 
     }
