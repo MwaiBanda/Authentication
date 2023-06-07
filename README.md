@@ -13,48 +13,39 @@ The library exposes a kotlin object called `Authentication` that provides instan
 ## Kotlin
 ### Firebase Initilization
 ```kotlin
-...
+   import io.github.mwaibanda.authentication.di.Authentication 
+   import io.github.mwaibanda.authentication.di.initialize
+        
    override fun onCreate() {
         super.onCreate()
-        FirebaseApp.initializeApp(this) // <- Intialize FirebaseApp
+        Authentication.initializeApp(this) // <- Intialize FirebaseApp
     }
-...
 ```
 
 Use the Authetication object to access the shared AuthenticationController.
 ```kotlin
-class AuthControllerImpl(
-    private val controller: AuthenticationController = Authentication.controller
-): AuthController {
-    override fun signInWithEmail(
-        email: String,
-        password: String,
-        onSuccess: (UserResponse?) -> Unit,
-        onFailure: (String?) -> Unit
-    ) {
-        controller.signInWithEmail(email, password) { authResult ->
-            when(authResult) {
-                is AuthResult.Success -> {
-                    onSuccess(authResult.data)
-                }
-                is AuthResult.Failure -> {
-                    onFailure(authResult.message)
-                }
+    val auth: AuthenticationController = Authentication.controller
+
+    auth.signInWithEmail(email, password) { authResult ->
+        when(authResult) {
+            is AuthResult.Success -> {
+                onSuccess(authResult.data)
+            }
+            is AuthResult.Failure -> {
+                onFailure(authResult.message)
             }
         }
     }
-...
 ```
 
 ## Swift
 The standalone swift package comes bundled with Firebase Auth 
 ```swift
-import AuthenticationSwift // <-- Import librabry
 
 @main
 struct iOSApp: App {
     init() {
-        Authentication.configure() // <-- Call `configure` to init FirebaseApp
+        Authentication.initialize() // <-- Call `initialize` to init FirebaseApp
     }
     var body: some Scene {
         WindowGroup {
@@ -63,26 +54,15 @@ struct iOSApp: App {
 ```
 Use the Authetication class to access the shared instance of the AuthenticationController.
 ```swift
-import Authentication // <-- Import the core librabry
-
-class AuthControllerImpl {
-    var controller: AuthenticationController
-    init(controller: AuthenticationController = Authentication.shared.controller) {
-        self.controller = controller
-    }
-    func signinWithEmail(
-        email: String,
-        password: String,
-        onSuccess: @escaping (UserResponse) -> Void
-    ) {
-        controller.signInWithEmail(email: email, password: password) { authResult in
-            if let user = authResult.data {
-                onSuccess(user)
-            } else if let error = authResult.message {
-                // Handle error
-            }
+    val controller = Authentication.shared.controller
+    controller.signInWithEmail(email: email, password: password) { authResult in
+        if let user = authResult.data {
+            onSuccess(user)
+        } else if let error = authResult.message {
+            // Handle error
         }
     }
+    
 ...
 ```
 
@@ -115,10 +95,10 @@ data class UserResponse(
 
 Check the table below for the compatibilty across Kotlin versions
 
-| Library    | Kotlin  |
-| ---------- | ------- |
-| 1.0.+      | 1.6.21  |
-
+| Library | Kotlin |
+|---------|--------|
+| 1.0.0   | 1.6.21 |
+| 1.0.5+  | 1.8.21 |
 ## Android & KMM
 
 Add the repository on your Project-level gradle
@@ -145,30 +125,13 @@ On the module-level, add the library as a dependency
 kotlin {
     ...
     sourceSets["commonMain"].dependencies {
-        implementation("io.github.mwaibanda:authentication:1.0.0")
+        api("io.github.mwaibanda:authentication:1.0.0")
     }
 }
 ```
 
-### Standalone Android 
 
-On the module-level, add the library as a dependency
 
-```kotlin
-kotlin {
-    ...
-    sourceSets["commonMain"].dependencies {
-        implementation("io.github.mwaibanda:authentication-android:1.0.0")
-    }
-}
-```
-
-## iOS
-
-### Swift Package Manager
-File > Swift Packages > Add Package Dependency <br>
-Add https://github.com/MwaiBanda/Authentication.git <br>
-branch origin
 
 ## JS
 ### npm
