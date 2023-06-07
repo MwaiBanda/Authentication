@@ -1,5 +1,6 @@
 package io.github.mwaibanda.authentication.di
 
+import dev.gitlive.firebase.FirebaseApp
 import io.github.mwaibanda.authentication.domain.controller.AuthenticationController
 import io.github.mwaibanda.authentication.domain.service.AuthenticationService
 import org.kodein.di.DI
