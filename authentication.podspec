@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'Authentication'
-    spec.version                  = '1.0.0'
+    spec.version                  = '1.0.5'
     spec.homepage                 = 'https://github.com/MwaiBanda/Authentication'
     spec.source                   = { :http=> ''}
     spec.authors                  = 'Mwai Banda'
@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/Authentication.framework'
                 
     spec.ios.deployment_target = '13.5'
-    spec.dependency 'FirebaseAuth', '10.7.0'
+    spec.dependency 'FirebaseCore', '10.10.0'
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => '',
@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
                 fi
                 set -ev
                 REPO_ROOT="$PODS_TARGET_SRCROOT"
-                "$REPO_ROOT/../../../../../../private/var/folders/hz/78xz1fln26940hs7x9vqwv3c0000gp/T/wrap11505loc/gradlew" -p "$REPO_ROOT" $KOTLIN_PROJECT_PATH:syncFramework \
+                "$REPO_ROOT/../../../../../../private/var/folders/hz/78xz1fln26940hs7x9vqwv3c0000gp/T/wrap100488loc/gradlew" -p "$REPO_ROOT" $KOTLIN_PROJECT_PATH:syncFramework \
                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME \
                     -Pkotlin.native.cocoapods.archs="$ARCHS" \
                     -Pkotlin.native.cocoapods.configuration="$CONFIGURATION"

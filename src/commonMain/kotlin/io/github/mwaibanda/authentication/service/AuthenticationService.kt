@@ -10,7 +10,7 @@ internal class AuthenticationService(
     private val firebaseAuth: FirebaseAuth
 ): AuthenticationService {
     override suspend fun signInWithEmail(email: String, password: String): AuthResult<UserResponse> {
-        if (firebaseAuth.currentUser != null && (firebaseAuth.currentUser?.isAnonymous == true))
+        if ((firebaseAuth.currentUser != null) && (firebaseAuth.currentUser?.isAnonymous == true))
             deleteUser()
         return try {
             val res =
