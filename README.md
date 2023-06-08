@@ -38,9 +38,9 @@ Use the Authetication object to access the shared AuthenticationController.
     }
 ```
 
-## Swift
-The standalone swift package comes bundled with Firebase Auth 
+## Swift 
 ```swift
+import Authentication // Needed when using standalone library
 
 @main
 struct iOSApp: App {
@@ -131,7 +131,12 @@ kotlin {
 ```
 
 
+## iOS
 
+### Swift Package Manager
+File > Swift Packages > Add Package Dependency <br>
+Add https://github.com/MwaiBanda/Authentication.git <br>
+branch origin
 
 ## JS
 ### npm
