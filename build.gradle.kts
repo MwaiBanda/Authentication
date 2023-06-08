@@ -12,7 +12,7 @@ plugins {
 multiplatformSwiftPackage {
     packageName("Authentication")
     outputDirectory(File(rootDir, "/artifacts"))
-    distributionMode { local() }
+    distributionMode { remote("https://github.com/MwaiBanda/AuthenticationSwift") }
     swiftToolsVersion("5.3")
     targetPlatforms {
         iOS { v("13") }
