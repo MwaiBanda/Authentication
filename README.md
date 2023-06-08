@@ -125,7 +125,7 @@ On the module-level, add the library as a dependency
 kotlin {
     ...
     sourceSets["commonMain"].dependencies {
-        api("io.github.mwaibanda:authentication:1.0.0")
+        api("io.github.mwaibanda:authentication:1.0.5")
     }
 }
 ```
