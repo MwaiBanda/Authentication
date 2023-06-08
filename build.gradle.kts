@@ -11,7 +11,7 @@ plugins {
 
 multiplatformSwiftPackage {
     packageName("Authentication")
-    outputDirectory(File(rootDir, "/artifacts"))
+    outputDirectory(File(rootDir, "/swift/AuthenticationSwift"))
     distributionMode { local() }
     swiftToolsVersion("5.3")
     targetPlatforms {
