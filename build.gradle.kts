@@ -1,8 +1,10 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("com.android.library") version "7.2.2"
-    kotlin("multiplatform") version "1.8.21"
-    kotlin("native.cocoapods")  version "1.8.21"
-    kotlin("plugin.serialization") version "1.8.21"
+    id("com.android.library") version "8.5.2"
+    alias(libs.plugins.kotlinMultiplatform)
+    kotlin("native.cocoapods")  version libs.versions.kotlin
+    kotlin("plugin.serialization") version libs.versions.kotlin
     id("com.chromaticnoise.multiplatform-swiftpackage") version "2.0.3"
     id("plugin.publication")
 }
@@ -20,7 +22,7 @@ multiplatformSwiftPackage {
 }
 
 group = "io.github.mwaibanda"
-version = "1.0.5"
+version = "1.0.6"
 
 repositories {
     google()
@@ -29,17 +31,28 @@ repositories {
 
 android {
     namespace = "io.github.mwaibanda.authentication.android"
-    compileSdk = 31
+    compileSdk = 34
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }
 
 
 kotlin {
-    android {
+    applyDefaultHierarchyTemplate()
+    androidTarget {
+        compilations {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_17)
+            }
+        }
         publishAllLibraryVariants()
     }
 
-    ios()
+    iosArm64()
+    iosX64()
     iosSimulatorArm64()
 
     js(IR) {
@@ -67,37 +80,33 @@ kotlin {
             isStatic = true
         }
         pod("FirebaseCore") {
-            version = "10.10.0"
+            version = "11.6.0"
         }
     }
 
     sourceSets {
-        val coroutines = "1.6.0"
-        val firebase = "1.6.2"
         val commonMain by getting {
             dependencies {
-                api("org.kodein.di:kodein-di:7.20.1")
-                api("dev.gitlive:firebase-auth:1.6.2")
-                implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                api(libs.kodein.di)
+                api(libs.firebase.auth)
+                implementation (libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.coroutines.core)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation(kotlin("test-junit"))
             }
         }
         val commonTest by getting {
             dependencies {
-                api("org.kodein.di:kodein-di:7.20.1")
+                api(libs.kodein.di)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation(kotlin("test-junit"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.coroutines.test)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation("dev.gitlive:firebase-auth:1.6.2")
+                implementation(libs.firebase.auth)
             }
         }
         val androidInstrumentedTest by getting {

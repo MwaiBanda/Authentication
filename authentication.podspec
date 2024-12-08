@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'Authentication'
-    spec.version                  = '1.0.5'
+    spec.version                  = '1.0.6'
     spec.homepage                 = 'https://github.com/MwaiBanda/Authentication'
     spec.source                   = { :http=> ''}
     spec.authors                  = 'Mwai Banda'
@@ -8,8 +8,23 @@ Pod::Spec.new do |spec|
     spec.summary                  = 'iOS Firebase Auth Wrapper'
     spec.vendored_frameworks      = 'build/cocoapods/framework/Authentication.framework'
                 
-    spec.ios.deployment_target = '13.5'
-    spec.dependency 'FirebaseCore', '10.10.0'
+    spec.ios.deployment_target    = '13.5'
+    spec.dependency 'FirebaseCore', '11.6.0'
+                
+    if !Dir.exist?('build/cocoapods/framework/Authentication.framework') || Dir.empty?('build/cocoapods/framework/Authentication.framework')
+        raise "
+
+        Kotlin framework 'Authentication' doesn't exist yet, so a proper Xcode project can't be generated.
+        'pod install' should be executed after running ':generateDummyFramework' Gradle task:
+
+            ./gradlew :generateDummyFramework
+
+        Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
+    end
+                
+    spec.xcconfig = {
+        'ENABLE_USER_SCRIPT_SANDBOXING' => 'NO',
+    }
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => '',
@@ -28,7 +43,7 @@ Pod::Spec.new do |spec|
                 fi
                 set -ev
                 REPO_ROOT="$PODS_TARGET_SRCROOT"
-                "$REPO_ROOT/../../../../../../private/var/folders/hz/78xz1fln26940hs7x9vqwv3c0000gp/T/wrap100488loc/gradlew" -p "$REPO_ROOT" $KOTLIN_PROJECT_PATH:syncFramework \
+                "$REPO_ROOT/gradlew" -p "$REPO_ROOT" $KOTLIN_PROJECT_PATH:syncFramework \
                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME \
                     -Pkotlin.native.cocoapods.archs="$ARCHS" \
                     -Pkotlin.native.cocoapods.configuration="$CONFIGURATION"
