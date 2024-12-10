@@ -1,14 +1,25 @@
 package io.github.mwaibanda.authentication.service
 
+import dev.gitlive.firebase.auth.ActionCodeSettings
 import dev.gitlive.firebase.auth.EmailAuthProvider
 import dev.gitlive.firebase.auth.FirebaseAuth
 import io.github.mwaibanda.authentication.domain.model.UserResponse
 import io.github.mwaibanda.authentication.domain.service.AuthenticationService
 import io.github.mwaibanda.authentication.utils.AuthResult
+import io.github.mwaibanda.authentication.utils.DefaultAuthResult
 
 internal class AuthenticationService(
     private val firebaseAuth: FirebaseAuth
 ): AuthenticationService {
+    override suspend fun resetPassword(email: String): DefaultAuthResult {
+        return try {
+            firebaseAuth.sendPasswordResetEmail(email)
+            DefaultAuthResult.Success()
+        } catch (e: Exception) {
+            DefaultAuthResult.Failure(e.message.toString())
+        }
+    }
+
     override suspend fun signInWithEmail(email: String, password: String): AuthResult<UserResponse> {
         if ((firebaseAuth.currentUser != null) && (firebaseAuth.currentUser?.isAnonymous == true))
             deleteUser()
@@ -61,8 +72,12 @@ internal class AuthenticationService(
         }
     }
 
-    override suspend fun isUserSignedIn(): Boolean {
-        return (firebaseAuth.currentUser != null)
+    override suspend fun isUserSignedIn(): AuthResult<Boolean> {
+        return try {
+            AuthResult.Success(firebaseAuth.currentUser != null)
+        } catch (e: Exception) {
+            AuthResult.Failure(e.message.toString())
+        }
     }
 
     override suspend fun getCurrentUser(): AuthResult<UserResponse> {
@@ -80,11 +95,21 @@ internal class AuthenticationService(
         }
     }
 
-    override suspend fun deleteUser() {
-        firebaseAuth.currentUser?.delete()
+    override suspend fun deleteUser(): DefaultAuthResult {
+        return try {
+            firebaseAuth.currentUser?.delete()
+            DefaultAuthResult.Success()
+        } catch (e: Exception) {
+            DefaultAuthResult.Failure(e.message.toString())
+        }
     }
 
-    override suspend fun signOut() {
-        firebaseAuth.signOut()
+    override suspend fun signOut(): DefaultAuthResult {
+        return try {
+            firebaseAuth.signOut()
+            DefaultAuthResult.Success()
+        } catch (e: Exception) {
+            DefaultAuthResult.Failure(e.message.toString())
+        }
     }
 }

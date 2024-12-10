@@ -4,34 +4,33 @@ import io.github.mwaibanda.authentication.domain.controller.AuthenticationContro
 import io.github.mwaibanda.authentication.domain.model.UserResponse
 import io.github.mwaibanda.authentication.domain.usecase.*
 import io.github.mwaibanda.authentication.utils.AuthResult
+import io.github.mwaibanda.authentication.utils.DefaultAuthResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import org.kodein.di.DI
-import org.kodein.di.DIAware
-import org.kodein.di.instance
 
 internal class AuthenticationController(
-    private val signInWithEmailUseCase: SignInWithEmailUseCase,
-    private val signUpWithEmailUseCase: SignUpWithEmailUseCase,
-    private val signInAsGuestUseCase: SignInAsGuestUseCase,
-    private val isUserSignedInUseCase: IsUserSignedInUseCase,
-    private val getCurrentUserUseCase: GetCurrentUserUseCase,
-    private val deleteUserUseCase: DeleteUserUseCase,
-    private val signOutUseCase: SignOutUseCase,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
+    private val authenticationUseCases: AuthenticationUseCases,
 ) : AuthenticationController {
 
     private val scope = MainScope()
+
+    override fun resetPassword(email: String, onCompletion: (DefaultAuthResult) -> Unit) {
+        scope.launch {
+            authenticationUseCases.resetPassword(email) {
+                onCompletion(it)
+            }
+        }
+    }
 
     override fun signInWithEmail(
         email: String,
         password: String,
         onCompletion: (AuthResult<UserResponse>) -> Unit
     ) {
-        scope.launch(dispatcher) {
-            signInWithEmailUseCase(email = email, password = password) {
+        scope.launch {
+            authenticationUseCases.signInWithEmail(email = email, password = password) {
                 onCompletion(it)
             }
         }
@@ -42,30 +41,30 @@ internal class AuthenticationController(
         password: String,
         onCompletion: (AuthResult<UserResponse>) -> Unit
     ) {
-        scope.launch(dispatcher) {
-            signUpWithEmailUseCase(email = email, password = password) {
+        scope.launch {
+            authenticationUseCases.signUpWithEmail(email = email, password = password) {
                 onCompletion(it)
             }
         }
     }
 
     override fun signInAsGuest(onCompletion: (AuthResult<UserResponse>) -> Unit) {
-        scope.launch(dispatcher) {
-            signInAsGuestUseCase {
+        scope.launch {
+            authenticationUseCases.signInAsGuest {
                 onCompletion(it)
             }
         }
     }
 
     override fun isUserSignedIn(onCompletion: (Boolean) -> Unit)  {
-        scope.launch(dispatcher) {
-            onCompletion(isUserSignedInUseCase())
+        scope.launch {
+            onCompletion(authenticationUseCases.isUserSignedIn())
         }
     }
 
     override fun getCurrentUser(onCompletion: (AuthResult<UserResponse>) -> Unit) {
-        scope.launch(dispatcher) {
-            getCurrentUserUseCase {
+        scope.launch {
+            authenticationUseCases.getCurrentUser {
                 onCompletion(it)
             }
         }
@@ -86,14 +85,14 @@ internal class AuthenticationController(
     }
 
     override fun deleteUser() {
-        scope.launch(dispatcher) {
-            deleteUserUseCase()
+        scope.launch {
+            authenticationUseCases.deleteUser()
         }
     }
 
     override fun signOut(){
-        scope.launch(dispatcher) {
-            signOutUseCase()
+        scope.launch {
+            authenticationUseCases.signOut()
         }
     }
 }

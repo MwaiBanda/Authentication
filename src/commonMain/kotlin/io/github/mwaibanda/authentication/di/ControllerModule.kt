@@ -10,13 +10,7 @@ import org.kodein.di.singleton
 val authControllerModule =  DI.Module("Auth/Controller") {
     bind<AuthenticationController>() with singleton {
         AuthenticationControllerImpl(
-            signInAsGuestUseCase = instance(),
-            signInWithEmailUseCase = instance(),
-            signUpWithEmailUseCase = instance(),
-            signOutUseCase = instance(),
-            getCurrentUserUseCase = instance(),
-            deleteUserUseCase = instance(),
-            isUserSignedInUseCase = instance(),
+            authenticationUseCases = instance()
         )
     }
 }

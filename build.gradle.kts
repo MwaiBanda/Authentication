@@ -22,7 +22,7 @@ multiplatformSwiftPackage {
 }
 
 group = "io.github.mwaibanda"
-version = "1.0.6"
+version = "1.0.8"
 
 repositories {
     google()
@@ -35,6 +35,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    dependencies {
+        implementation(libs.androidx.startup.runtime)
     }
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }
@@ -151,25 +155,25 @@ tasks {
 
     val copyReadMe by registering(Copy::class) {
         from(rootProject.file("README.md"))
-        into(file("$buildDir/node_module"))
+        into(layout.buildDirectory.dir("/node_module").get().asFile)
     }
 
     val copyPackageJson by registering(Copy::class) {
         from(file("package.json"))
-        into(file("$buildDir/node_module"))
+        into(layout.buildDirectory.dir("/node_module").get().asFile)
     }
 
     val unzipJar by registering(Copy::class) {
-        val zipFile = File("$buildDir/libs", "${project.name}-js-${project.version}-sources.jar")
+        val zipFile = layout.buildDirectory.dir("/libs/${project.name}-js-${project.version}-sources.jar").get().asFile
         from(this.project.zipTree(zipFile))
-        into("$buildDir/classes/kotlin/js/main/")
+        into(layout.buildDirectory.dir("/classes/kotlin/js/main/").get())
     }
 
     val copyJS by registering {
         mustRunAfter("unzipJar", "copyPackageJson")
         doLast {
-            val from = File("$buildDir/classes/kotlin/js/main/${project.name}.js")
-            val into = File("$buildDir/node_module/${project.name}.js")
+            val from = layout.buildDirectory.dir("classes/kotlin/js/main/${project.name}.js").get().asFile
+            val into = layout.buildDirectory.dir("node_module/${project.name}.js").get().asFile
             into.createNewFile()
             into.writeText(
                 from.readText()
@@ -180,8 +184,8 @@ tasks {
     }
 
     val copySourceMap by registering(Copy::class) {
-        from(file("$buildDir/classes/kotlin/js/main/${project.name}.js.map"))
-        into(file("$buildDir/node_module"))
+        from(layout.buildDirectory.dir("/classes/kotlin/js/main/${project.name}.js.map").get().asFile)
+        into(layout.buildDirectory.dir("/node_module").get().asFile)
     }
 
     val prepareForNpmPublish by registering {
@@ -195,7 +199,7 @@ tasks {
     }
 
     val publishToNpm by creating(Exec::class) {
-        workingDir("$buildDir/node_module")
+        workingDir(layout.buildDirectory.dir("/node_module").get())
         isIgnoreExitValue = true
         commandLine("npm", "publish")
     }

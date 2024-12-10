@@ -7,3 +7,10 @@ sealed class AuthResult<T>(
     class Success<T>(data: T): AuthResult<T>(data)
     class Failure<T>(message: String, data:  T? = null): AuthResult<T>(data, message)
 }
+
+sealed class DefaultAuthResult(
+    val message:  String?  = null
+) {
+    class Success(): DefaultAuthResult()
+    class Failure(message: String): DefaultAuthResult(message)
+}

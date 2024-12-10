@@ -1,6 +1,6 @@
 {
   "name": "@mwaibanda/authetication",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "Wrapper around firebase for usage in Kotlin Multiplatform projects",
   "main": "authentication.js",
   "scripts": {

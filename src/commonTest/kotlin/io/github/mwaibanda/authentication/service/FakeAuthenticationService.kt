@@ -42,7 +42,7 @@ class FakeAuthenticationService: AuthenticationService {
         return AuthResult.Success(currentUser)
     }
 
-    override suspend fun isUserSignedIn(): Boolean {
+    override suspend fun isUserSignedIn(): AuthResult<Boolean> {
         return !(currentUser.isAnonymous || currentUser.email.orEmpty().isEmpty())
     }
 

@@ -5,6 +5,7 @@ import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
 import org.kodein.di.singleton
+import kotlin.math.sin
 
 val authUseCasesModule = DI.Module("Auth/UseCase") {
     /**
@@ -17,4 +18,17 @@ val authUseCasesModule = DI.Module("Auth/UseCase") {
     bind<GetCurrentUserUseCase>() with singleton { GetCurrentUserUseCase(authenticationService = instance()) }
     bind<DeleteUserUseCase>() with singleton { DeleteUserUseCase(authenticationService = instance()) }
     bind<SignOutUseCase>() with singleton { SignOutUseCase(authenticationService = instance()) }
+    bind<ResetPasswordUseCase>() with singleton { ResetPasswordUseCase(authenticationService = instance()) }
+    bind<AuthenticationUseCases>() with singleton {
+        AuthenticationUseCases(
+            signInWithEmail = instance(),
+            signUpWithEmail = instance(),
+            signInAsGuest = instance(),
+            isUserSignedIn = instance(),
+            getCurrentUser = instance(),
+            signOut = instance(),
+            deleteUser = instance(),
+            resetPassword = instance()
+        )
+    }
 }
