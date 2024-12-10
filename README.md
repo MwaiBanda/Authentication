@@ -18,7 +18,7 @@ The library exposes a kotlin object called `Authentication` that provides instan
         
    override fun onCreate() {
         super.onCreate()
-        Authentication.initializeApp(this) // <- Intialize FirebaseApp
+        Authentication.initializeApp() // <-- Call `initialize` to init FirebaseApp
     }
 ```
 
@@ -99,6 +99,8 @@ Check the table below for the compatibilty across Kotlin versions
 |---------|--------|
 | 1.0.0   | 1.6.21 |
 | 1.0.5+  | 1.8.21 |
+| 1.0.6+   | 2.1.0 |
+
 ## Android & KMM
 
 Add the repository on your Project-level gradle
